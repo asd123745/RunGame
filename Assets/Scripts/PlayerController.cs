@@ -26,14 +26,14 @@ public class PlayerController : MonoBehaviour {
         {
             return;
         }
-        if (Input.GetMousButtonDown(0) && jumpCount < 2)
+        if (Input.GetMouseButtonDown(0) && jumpCount < 2)
         {
             jumpCount++;
             playerRigidbody.velocity = Vector2.zero;
             playerRigidbody.AddForce(new Vector2(0, jumpForce));
             playerAudio.Play();
         }
-        else if(Input.GetMousButtonup(0) && playerRigidbody.velocity.y < 0)
+        else if(Input.GetMouseButtonUp(0) && playerRigidbody.velocity.y < 0)
         {
             playerRigidbody.velocity = playerRigidbody.velocity * 0.5f;
         }
