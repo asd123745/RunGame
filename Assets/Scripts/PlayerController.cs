@@ -3,7 +3,7 @@
 // PlayerController는 플레이어 캐릭터로서 Player 게임 오브젝트를 제어한다.
 public class PlayerController : MonoBehaviour {
    public AudioClip deathClip; // 사망시 재생할 오디오 클립
-   public float jumpForce = 700f; // 점프 힘
+   public float jumpForce = 250f; // 점프 힘
 
    private int jumpCount = 0; // 누적 점프 횟수
    private bool isGrounded = false; // 바닥에 닿았는지 나타냄
@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour {
         }
         if (Input.GetMouseButtonDown(0) && jumpCount < 2)
         {
-            jumpCount++;
+            /*jumpCount++;*/
             playerRigidbody.velocity = Vector2.zero;
             playerRigidbody.AddForce(new Vector2(0, jumpForce));
             playerAudio.Play();
@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour {
 
    private void Die() {
         // 사망 처리
-        animator.SetTrigger("Die");
+        animator.SetTrigger("die");
 
         playerAudio.clip = deathClip;
 
@@ -52,13 +52,14 @@ public class PlayerController : MonoBehaviour {
 
         isDead = true;
 
+        GameManager.instance.OnPlayerDead();
 
 
    }
 
    private void OnTriggerEnter2D(Collider2D other) {
        // 트리거 콜라이더를 가진 장애물과의 충돌을 감지
-       if(other.tag=="dead"&&!isDead)
+       if(other.tag=="Dead"&&!isDead)
         {
 
             Die();
@@ -74,9 +75,10 @@ public class PlayerController : MonoBehaviour {
             isGrounded = true;
             jumpCount = 0;
         }
+        Die();
 
 
-   }
+    }
 
    private void OnCollisionExit2D(Collision2D collision) {
         // 바닥에서 벗어났음을 감지하는 처리
